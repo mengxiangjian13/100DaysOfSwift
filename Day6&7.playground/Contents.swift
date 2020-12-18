@@ -48,3 +48,44 @@ travel { (action) in
 // 闭包也可以有返回值
 
 // 闭包的参数可以简化，可以用$0,$1来代替第1、2个参数。如果闭包只有一行代码，可以不写return
+travel {
+    print("I'm driving to \($0)")
+}
+
+func travelPerHour(action: (NSString, Int) -> String) {
+    print("I'm prepared")
+    print(action("London", 60))
+    print("I'm arrived")
+}
+
+travelPerHour {
+    "I'm driving to \($0) using \($1)km per hour"
+}
+
+// 函数返回值为闭包
+func plusThree() -> (Int) -> Int {
+    return {
+        3 + $0
+    }
+}
+
+plusThree()(4)
+
+// 闭包可以捕获外面的参数，并且可以修改
+
+// 每次调用返回和之前不一样的数字
+func differentFromPreviousValue() -> () -> Int {
+    var previousValue = 0
+    return {
+        var newValue: Int
+        repeat {
+            newValue = Int.random(in: 1...3)
+        } while previousValue == newValue
+        previousValue = newValue
+        return newValue
+    }
+}
+let different = differentFromPreviousValue()
+for _ in 1...10 {
+    print(different())
+}
