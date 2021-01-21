@@ -50,6 +50,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .bookmarks, target: self, action: #selector(itemTapped))
         for button in [button1, button2, button3] as! [UIButton] {
             button.layer.borderWidth = 1
             button.layer.borderColor = UIColor.lightGray.cgColor
@@ -65,6 +66,12 @@ class ViewController: UIViewController {
         button3.setImage(UIImage(named: countries[2]), for: .normal)
         correctAnswer = Int.random(in: 0...2)
         title = countries[correctAnswer].uppercased() + "(score:\(score))"
+    }
+    
+    @objc func itemTapped() {
+        let ac = UIAlertController(title: "Your current score is \(score)", message: nil, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "ok", style: .default, handler: nil))
+        present(ac, animated: true, completion: nil)
     }
 
 }
