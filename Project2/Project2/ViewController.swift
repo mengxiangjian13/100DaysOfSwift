@@ -17,7 +17,13 @@ class ViewController: UIViewController {
         let checkAnswerCount = {
             self.answeredCount += 1
             if self.answeredCount == 10 {
-                let ac = UIAlertController(title: "Your final score is \(self.score)", message: nil, preferredStyle: .alert)
+                let highestScore = UserDefaults.standard.integer(forKey: "high")
+                var message: String? = nil
+                if self.score > highestScore {
+                    message = "You make a new record! Previous high score is \(highestScore)"
+                }
+                UserDefaults.standard.set(self.score, forKey: "high")
+                let ac = UIAlertController(title: "Your final score is \(self.score)", message: message, preferredStyle: .alert)
                 self.present(ac, animated: true, completion: nil)
             } else {
                 let ac = UIAlertController(title: self.title, message: "Your score is \(self.score)", preferredStyle: .alert)

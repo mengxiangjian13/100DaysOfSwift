@@ -29,7 +29,12 @@ class ViewController: UITableViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(promptForAnswer))
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .redo, target: self, action: #selector(startGame))
         
-        startGame()
+        if let dict = UserDefaults.standard.object(forKey: "history") as? [String: [String]] {
+            title = dict.keys.first
+            usedWords = dict[title!]!
+        } else {
+            startGame()
+        }
     }
     
     @objc func startGame() {
@@ -59,6 +64,7 @@ class ViewController: UITableViewController {
                     usedWords.insert(answer, at: 0)
                     let indexPath = IndexPath(row: 0, section: 0)
                     tableView.insertRows(at: [indexPath], with: .automatic)
+                    UserDefaults.standard.set([title!: usedWords], forKey: "history")
                     return
                 } else {
                     showErrorMessage(errorTitle: "Word not recognised",
