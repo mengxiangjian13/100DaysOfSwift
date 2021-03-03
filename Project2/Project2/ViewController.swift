@@ -46,6 +46,15 @@ class ViewController: UIViewController {
             }))
             present(ac, animated: true, completion: nil)
         }
+        sender.transform = .identity
+    }
+    
+    @objc func buttonPressed(_ sender: UIButton) {
+        UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.1, initialSpringVelocity: 5, options: []) {
+            sender.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+        } completion: { finished in
+            
+        }
     }
     
     var countries = [String]()
@@ -60,6 +69,7 @@ class ViewController: UIViewController {
         for button in [button1, button2, button3] as! [UIButton] {
             button.layer.borderWidth = 1
             button.layer.borderColor = UIColor.lightGray.cgColor
+            button.addTarget(self, action: #selector(buttonPressed(_:)), for: .touchDown)
         }
         countries += ["estonia", "france", "germany", "ireland", "italy", "monaco", "nigeria", "poland", "russia", "spain", "uk", "us"]
         askQuestion()
